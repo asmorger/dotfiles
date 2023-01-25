@@ -3,7 +3,7 @@
 
 Config {
          --font = "xft:Zekton:size=15:bold:antialias=true:hinting=true"
-         font = "xft:Hack:size=13:bold:antialias=true:hinting=true"
+         font = "xft:Rec Mono Duotone:size=13:bold:antialias=true:hinting=true"
        , additionalFonts = [
            "xft:Hack Nerd Font Mono:size=15:antialias=true:hinting=true" 
 	 ]

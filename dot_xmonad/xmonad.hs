@@ -22,6 +22,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Hooks.WindowSwallowing
 
     -- Actions
 import XMonad.Actions.CopyWindow (kill1)
@@ -108,7 +109,7 @@ myScreenshot = "flameshot full"
 
 -- The command to use as a launcher, to launch commands that don't have
 -- preset keybindings.
-myLauncher = "rofi -show run"
+myLauncher = "rofi -show drun -modi drun"
 myTaskSwitcher = "rofi -show"
 myBrowser = "microsoft-edge-stable"
 mySoundPlayer :: String
@@ -209,7 +210,7 @@ myScratchPads :: [NamedScratchpad]
 myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                 ]
   where
-    spawnTerm  = myTerminal ++ " -t scratchpad"
+    spawnTerm  = myTerminal ++ " --title scratchpad"
     findTerm   = title =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
                where
@@ -344,7 +345,7 @@ tabs     = renamed [Replace "tabs"]
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
     --{ swn_font              = "xft:Zekton:bold:size=60"
-    { swn_font              = "xft:Caskydia Cove Nerd Font:bold:size=60"
+    { swn_font              = "xft:Rec Mono Duotone:bold:size=60"
     , swn_fade              = 1.0
     , swn_bgcolor           = "#1c1f24"
     , swn_color             = "#ffffff"
@@ -405,11 +406,12 @@ unfocusColor = base02
 -- myBigFont   = "-*-Zekton-medium-*-*-*-*-240-*-*-*-*-*-*"
 --myFont      = "xft:Go Mono Nerd Font:size=10:bold:antialias=true"
 -- myFont      = "xft:Caskaydia Cove Nerd Font:size=10:bold:antialias=true"
-myFont      = "xft:Hurmit Nerd Font:size=10:bold:antialias=true"
+--myFont      = "xft:Hurmit Nerd Font:size=10:bold:antialias=true"
+myFont      = "xft:Rec Mono Duotone:size=10:bold:antialias=true"
 --myBigFont   = "xft:Zekton:size=9:bold:antialias=true"
 --myBigFont   = "xft:Zekton:size=9:bold:antialias=true"
-myBigFont   = "xft:Hurmit Nerd Font:size=9:bold:antialias=true"
-myWideFont  = "xft:Hurmit Nerd Font:style=Regular:pixelsize=180:hinting=true"
+myBigFont   = "xft:Rec Mono Duotone:size=9:bold:antialias=true"
+myWideFont  = "xft:Rec Mono Duotone:style=Regular:pixelsize=180:hinting=true"
 
 -- Color of current window title in xmobar.
 xmobarTitleColor = yellow
@@ -498,7 +500,7 @@ subtitle' x = ((0,0), NamedAction $ map toUpper
 
 showKeybindings :: [((KeyMask, KeySym), NamedAction)] -> NamedAction
 showKeybindings x = addName "Show Keybindings" $ io $ do
-  h <- spawnPipe $ "yad --text-info --fontname=\"Cashaydia Cove Nerd Font 12\" --fore=#46d9ff back=#282c36 --center --geometry=1200x800 --title \"XMonad keybindings\""
+  h <- spawnPipe $ "yad --text-info --fontname=\"Rec Mono Duotone 12\" --fore=#46d9ff back=#282c36 --center --geometry=1200x800 --title \"XMonad keybindings\""
   --hPutStr h (unlines $ showKm x) -- showKM adds ">>" before subtitles
   hPutStr h (unlines $ showKmSimple x) -- showKmSimple doesn't add ">>" to subtitles
   hClose h
@@ -510,7 +512,7 @@ emConfig :: EasyMotionConfig
 emConfig = def
              { txtCol=base3
 	     , cancelKey=xK_q
-	     , emFont="xft:Hurmit Nerd Font:size=40"
+	     , emFont="xft:Rec Mono Duotone:size=40"
 	     , overlayF= textSize
 	     , sKeys= AnyKeys [xK_s, xK_n, xK_r, xK_e, xK_a, xK_i]
 	     }
@@ -526,7 +528,8 @@ myKeys c =
   , ("M-S-q w", addName "Recompile and Restart XMonad"   $ sequence_ [spawn ("xmonad --recompile"), spawn ("xmonad --restart")])
   , ("M-S-q ;", addName "Quit XMonad"                    $ io exitSuccess)
   , ("M-o",   addName "Run prompt"                       $ spawn myLauncher)
-  , ("M-t",   addName "Open prompt"                      $ spawn myTaskSwitcher)]
+  , ("M-;",   addName "Switch windows"                   $ spawn "rofi -show window")
+  , ("M-<Return>", addName "Power prompt"                $ spawn "~/.config/rofi-power/rofi-power \"killall xmonad\"")]
 
   ^++^ subKeys "Switch to workspace"
   [ ("M-S-z", addName "Switch to workspace 1"    $ (windows $ W.greedyView $ myWorkspaces !! 0))
@@ -577,6 +580,7 @@ myKeys c =
   , ("M-S-b", addName "Launch web browser"    $ spawn (myBrowser))
   --, ("M-S-h", addName "Launch btm"           $ spawn (myTerminal ++ " -e btm"))
   , ("M-S-r", addName "Launch rider"          $ spawn ("rider"))
+  , ("M-S-i", addName "Launch imaginarium"    $ spawn ("code ~/dev/work/Imaginarium/notes/dendron.code-workspace"))
   , ("M-S-a M-k", addName "Kill all windows on WS" $ killAll)]
 
   -- Switch layouts
@@ -624,16 +628,16 @@ myKeys c =
   , ("M-C-/", addName "UnMergeAll"            $  withFocused (sendMessage . UnMergeAll))
   , ("M-C-.", addName "Switch focus next tab" $  onGroup W.focusUp')
   , ("M-C-,", addName "Switch focus prev tab" $  onGroup W.focusDown')]
-
+-}
   -- Scratchpads
   -- Toggle show/hide these programs. They run on a hidden workspace.
   -- When you toggle them to show, it brings them to current workspace.
   -- Toggle them to hide and it sends them back to hidden workspace (NSP).
   ^++^ subKeys "Scratchpads"
-  [ (myLeaderKey ++ "s t", addName "Toggle scratchpad terminal"   $ namedScratchpadAction myScratchPads "terminal")
-  , (myLeaderKey ++ "s m", addName "Toggle scratchpad mocp"       $ namedScratchpadAction myScratchPads "mocp")
-  , (myLeaderKey ++ "s c", addName "Toggle scratchpad calculator" $ namedScratchpadAction myScratchPads "calculator")]
-
+  [ ("M-S-o", addName "Toggle scratchpad terminal"   $ namedScratchpadAction myScratchPads "terminal")]
+  --, (myLeaderKey ++ "s m", addName "Toggle scratchpad mocp"       $ namedScratchpadAction myScratchPads "mocp")
+  --, (myLeaderKey ++ "s c", addName "Toggle scratchpad calculator" $ namedScratchpadAction myScratchPads "calculator")]
+{-
   -- Controls for mocp music player (SUPER-u followed by a key)
   ^++^ subKeys "Mocp music player"
   [ ("M-u p", addName "mocp play"                $ spawn "mocp --play")
@@ -721,9 +725,10 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook = do
+myStartupHook = do 
     spawnOnce "nitrogen --restore &"
     spawnOnce "picom &"
+--    spawnOnce "setxkbmap us -variant colemak_dh"
 
 ------------------------------------------------------------------------
 -- Run xmonad with all the defaults we set up.
@@ -743,18 +748,17 @@ main = do
         , terminal           = myTerminal
 	, startupHook        = myStartupHook
         , layoutHook         = showWName' myShowWNameTheme $ myLayoutHook
---	, handleEventHook   = docks
+	, handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "kitty") (return True)
         , workspaces         = myWorkspaces
         , borderWidth        = myBorderWidth
         , normalBorderColor  = myNormalBorderColor
         , focusedBorderColor = myFocusedBorderColor
-        , logHook = dynamicLogWithPP xmobarPP {
+        , logHook = dynamicLogWithPP $ filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP {
                   ppCurrent = xmobarColor xmobarCurrentWorkspaceColor "" . wrap "[" "]"
                 , ppVisible = xmobarColor xmobarOtherWorkspaceColor ""
-                , ppHidden = xmobarColor xmobarHiddenWorkspaceColor "" . wrap "*" ""
+                , ppHidden = xmobarColor xmobarHiddenWorkspaceColor "" . wrap "" ""
                 , ppHiddenNoWindows = xmobarColor xmobarHiddenNoWindowWorkspaceColor ""
---		, ppVisibleNoWindos = xmobarColor xmobarOtherWorkspaceColor ""
-                , ppTitle = xmobarColor xmobarTitleColor "" . shorten 80
+                , ppTitle = xmobarColor xmobarTitleColor "" . shorten 120
                 , ppSep = "   "
                 , ppUrgent = xmobarColor xmobarUrgentColor "" . wrap "!" "!"
                 , ppOutput = hPutStrLn xmproc
