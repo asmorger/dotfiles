@@ -2,10 +2,10 @@
 --
 
 Config {
-         --font = "xft:Zekton:size=15:bold:antialias=true:hinting=true"
-         font = "xft:Rec Mono Duotone:size=13:bold:antialias=true:hinting=true"
+         --font = "xft:Shure Tech Mono Nerd Font:size=15:bold:antialias=true:hinting=true"
+         font = "xft:Rec Mono Duotone:pixelsize=13:bold:antialias=true:hinting=true"
        , additionalFonts = [
-           "xft:Hack Nerd Font Mono:size=15:antialias=true:hinting=true" 
+           "xft:Shure Tech Mono Nerd Font:size=11:bold:antialias=true:hinting=true" 
 	 ]
        , allDesktops = True
        , persistent = True
@@ -13,7 +13,7 @@ Config {
        , fgColor = "#ebdbb2"
        , position = TopSize C 95 40
        , commands = [ 
-                      Run Cpu [ "--template", "<fn=1></fn> <bar>"
+                      Run Cpu [ "--template", "<fn=1> </fn> <bar>"
                               , "-f", ":"
 			      , "-L", "25"
 			      , "--Low","3"
@@ -22,7 +22,7 @@ Config {
                               , "--normal","#8ec07c"
                               , "--high","#fb4934"] 20
 
-                    , Run Memory ["-t","<fn=1>﬙</fn> <usedbar>"
+                    , Run Memory ["-t","<fn=1>﬙ </fn> <usedbar>"
                                  ,"-f", ":"
 				 ,"-H","80"
                                  ,"-L","25"
@@ -39,7 +39,7 @@ Config {
                                      ,"-l","#ebdbb2"
                                      ,"-n","#ebdbb2"] 20
 
-                    , Run CoreTemp ["-t", "<fc=#CDB464><fn=1></fn></fc> <core0>°"
+                    , Run CoreTemp ["-t", "<fc=#CDB464><fn=1> </fn></fc> <core0>°"
                                    , "-L", "30"
                                    , "-H", "75"
                                    , "-l", "lightblue"
@@ -52,7 +52,7 @@ Config {
 			"--",
 			"-i", "<fn=1>ﮣ</fn>",
 			"-O", "<fn=1>ﮣ</fn>",
-			"-o", "<fn=1></fn>",
+			"-o", "<fn=1> </fn>",
 			"-h", "green",
 			"-l", "red"
 			] 10
@@ -60,5 +60,5 @@ Config {
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "  %StdinReader% }{ <box type=Bottom width=2 mb=2 color=#8ec07c> %cpu% </box> <box type=Bottom width=2 mb=2 color=#fb4934> %memory% </box> <box type=Bottom width=2 mb=2 color=#d79921> %battery% </box> <box type=Bottom width=2 mb=2 color=#98971a> <fn=1></fn> %volume% </box> <box type=Bottom width=2 mb=2 color=#b16286> %dynnetwork% </box> <box type=Bottom width=2 mb=2 color=#458588> <fn=1></fn> %date% </box>  "   -- #69DFFA
+       , template = "  %StdinReader% }{ <box type=Bottom width=2 mb=2 color=#8ec07c> %cpu% </box> <box type=Bottom width=2 mb=2 color=#fb4934> %memory% </box> <box type=Bottom width=2 mb=2 color=#d79921> %battery% </box> <box type=Bottom width=2 mb=2 color=#98971a> <fn=1> </fn> %volume% </box> <box type=Bottom width=2 mb=2 color=#b16286> %dynnetwork% </box> <box type=Bottom width=2 mb=2 color=#458588> <fn=1> </fn> %date% </box>  "   -- #69DFFA
 
