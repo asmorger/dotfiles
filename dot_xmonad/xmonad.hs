@@ -6,6 +6,7 @@ import System.IO
 import System.Exit
 -- import System.Taffybar.Hooks.PagerHints (pagerHints)
 
+import Data.ByteString.UTF8 (fromString)
 import Data.Char (isSpace, toUpper)
 import Data.Maybe (fromJust)
 import Data.Monoid
@@ -224,7 +225,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["www","dev","comms","media","sys"]
+myWorkspaces = ["www","dev","coms","media"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..]
 
 ------------------------------------------------------------------------
@@ -253,12 +254,10 @@ myManageHook = composeAll
     , className =? "Pavucontrol"                  --> doCenterFloat
     , className =? "Mate-power-preferences"       --> doCenterFloat
     , className =? "Xfce4-power-manager-settings" --> doCenterFloat
-    , className =? "VirtualBox"                   --> doShift "dev"
-    , className =? "Xchat"                        --> doShift "dev"
     , className =? "slack"                        --> doShift(myWorkspaces !! 2)
     , className =? "jetbrains-rider"              --> doShift (myWorkspaces !! 1)
     , className =? "stalonetray"                  --> doIgnore
-    , title =? "Spotify"                      --> doShift (myWorkspaces !! 3)
+    , title =? "Spotify"                          --> doShift (myWorkspaces !! 3)
     , isFullscreen                                --> (doF W.focusDown <+> doFullFloat)
     -- , isFullscreen                             --> doFullFloat
     ]
@@ -345,7 +344,7 @@ tabs     = renamed [Replace "tabs"]
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
     --{ swn_font              = "xft:Zekton:bold:size=60"
-    { swn_font              = "xft:Rec Mono Duotone:bold:size=60"
+    { swn_font              = "xft:Overpass Nerd Font:bold:size=60"
     , swn_fade              = 1.0
     , swn_bgcolor           = "#1c1f24"
     , swn_color             = "#ffffff"
@@ -355,7 +354,7 @@ myShowWNameTheme = def
 myLayoutHook = avoidStruts 
                 $ mouseResize
                 $ windowArrange 
-		$ T.toggleLayouts floats
+                $ T.toggleLayouts floats
                 $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
                myDefaultLayout =     withBorder myBorderWidth spirals
@@ -367,10 +366,10 @@ myLayoutHook = avoidStruts
 -- Colors and borders
 
 -- Width of the window border in pixels.
-myBorderWidth = 0
+myBorderWidth = 3
 
-myNormalBorderColor     = cyan
-myFocusedBorderColor    = red
+myNormalBorderColor     = magenta
+myFocusedBorderColor    = green
 
 base03  = "#002b36"
 base02  = "#073642"
@@ -407,11 +406,11 @@ unfocusColor = base02
 --myFont      = "xft:Go Mono Nerd Font:size=10:bold:antialias=true"
 -- myFont      = "xft:Caskaydia Cove Nerd Font:size=10:bold:antialias=true"
 --myFont      = "xft:Hurmit Nerd Font:size=10:bold:antialias=true"
-myFont      = "xft:Rec Mono Duotone:size=10:bold:antialias=true"
+myFont      = "xft:Overpass Nerd Font:size=10:bold:antialias=true"
 --myBigFont   = "xft:Zekton:size=9:bold:antialias=true"
 --myBigFont   = "xft:Zekton:size=9:bold:antialias=true"
-myBigFont   = "xft:Rec Mono Duotone:size=9:bold:antialias=true"
-myWideFont  = "xft:Rec Mono Duotone:style=Regular:pixelsize=180:hinting=true"
+myBigFont   = "xft:Overpass Nerd Font:size=9:bold:antialias=true"
+myWideFont  = "xft:Overpass Nerd Font:style=Regular:pixelsize=180:hinting=true"
 
 -- Color of current window title in xmobar.
 xmobarTitleColor = yellow
@@ -500,7 +499,7 @@ subtitle' x = ((0,0), NamedAction $ map toUpper
 
 showKeybindings :: [((KeyMask, KeySym), NamedAction)] -> NamedAction
 showKeybindings x = addName "Show Keybindings" $ io $ do
-  h <- spawnPipe $ "yad --text-info --fontname=\"Rec Mono Duotone 12\" --fore=#46d9ff back=#282c36 --center --geometry=1200x800 --title \"XMonad keybindings\""
+  h <- spawnPipe $ "yad --text-info --fontname=\"Overpass Nerd Font 12\" --fore=#46d9ff back=#282c36 --center --geometry=1200x800 --title \"XMonad keybindings\""
   --hPutStr h (unlines $ showKm x) -- showKM adds ">>" before subtitles
   hPutStr h (unlines $ showKmSimple x) -- showKmSimple doesn't add ">>" to subtitles
   hClose h
@@ -512,7 +511,7 @@ emConfig :: EasyMotionConfig
 emConfig = def
              { txtCol=base3
 	     , cancelKey=xK_q
-	     , emFont="xft:Rec Mono Duotone:size=40"
+	     , emFont="xft:Overpass Nerd Font:size=40"
 	     , overlayF= textSize
 	     , sKeys= AnyKeys [xK_s, xK_n, xK_r, xK_e, xK_a, xK_i]
 	     }
@@ -580,6 +579,7 @@ myKeys c =
   , ("M-S-b", addName "Launch web browser"    $ spawn (myBrowser))
   --, ("M-S-h", addName "Launch btm"           $ spawn (myTerminal ++ " -e btm"))
   , ("M-S-r", addName "Launch rider"          $ spawn ("rider"))
+  , ("M-S-e", addName "Launch emacs"          $ spawn ("emacsclient -nc -a 'emacs'"))
   , ("M-S-i", addName "Launch imaginarium"    $ spawn ("code ~/dev/work/Imaginarium/notes/dendron.code-workspace"))
   , ("M-S-a M-k", addName "Kill all windows on WS" $ killAll)]
 
@@ -754,10 +754,10 @@ main = do
         , normalBorderColor  = myNormalBorderColor
         , focusedBorderColor = myFocusedBorderColor
         , logHook = dynamicLogWithPP $ filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP {
-                  ppCurrent = xmobarColor xmobarCurrentWorkspaceColor "" . wrap "[" "]"
-                , ppVisible = xmobarColor xmobarOtherWorkspaceColor ""
-                , ppHidden = xmobarColor xmobarHiddenWorkspaceColor "" . wrap "" ""
-                , ppHiddenNoWindows = xmobarColor xmobarHiddenNoWindowWorkspaceColor ""
+                  ppCurrent = xmobarColor xmobarCurrentWorkspaceColor "" . wrap "\60327 " ""
+                , ppVisible = xmobarColor xmobarOtherWorkspaceColor "" . wrap "\984138 " ""
+                , ppHidden = xmobarColor xmobarHiddenWorkspaceColor "" . wrap "\984138 " ""
+                , ppHiddenNoWindows = xmobarColor xmobarHiddenNoWindowWorkspaceColor "" . wrap "\984138" ""
                 , ppTitle = xmobarColor xmobarTitleColor "" . shorten 120
                 , ppSep = "   "
                 , ppUrgent = xmobarColor xmobarUrgentColor "" . wrap "!" "!"
