@@ -10,9 +10,12 @@ export PATH="$HOME/gems/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 export PATH="$HOME/.spicetify:$PATH"
 export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
+export PATH="$PATH:$HOME/.local/bin:$PATH"
 export DOTNET_ROOT="$HOME/.dotnet"
 export PATH="$PATH:$HOME/.dotnet:$HOME/.dotnet/tools"
-export GITLAB_HOME=/srv/gitlab
+
+export npm_config_prefix="$HOME/.local"
+export EDITOR="/usr/bin/emacsclient -nc -a 'emacs'"
 
 # Autocomplete
 
@@ -21,7 +24,7 @@ complete -f -c dotnet -a "(dotnet complete)"
 # Aliases
 
 alias vim='nvim'
-alias emacs='emacsclient -c -a "emacs"'
+alias emacs='emacsclient -nc -a "emacs"'
 alias cat='bat'
 alias tracert='mtr'
 alias top='btm'
