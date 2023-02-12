@@ -3,9 +3,9 @@
 
 Config {
          --font = "xft:Shure Tech Mono Nerd Font:size=15:bold:antialias=true:hinting=true"
-         font = "xft:Rec Mono Duotone:pixelsize=13:bold:antialias=true:hinting=true"
+         font = "xft:Overpass Nerd Font:pixelsize=15:bold:antialias=true:hinting=true"
        , additionalFonts = [
-           "xft:Shure Tech Mono Nerd Font:size=11:bold:antialias=true:hinting=true" 
+           "xft:Overpass Nerd Font:size=11:bold:antialias=true:hinting=true" 
 	 ]
        , allDesktops = True
        , persistent = True
