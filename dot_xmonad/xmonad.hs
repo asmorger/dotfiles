@@ -344,7 +344,7 @@ tabs     = renamed [Replace "tabs"]
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
     --{ swn_font              = "xft:Zekton:bold:size=60"
-    { swn_font              = "xft:Overpass Nerd Font:bold:size=60"
+    { swn_font              = "xft:MonoLisa:bold:size=60"
     , swn_fade              = 1.0
     , swn_bgcolor           = "#1c1f24"
     , swn_color             = "#ffffff"
@@ -406,11 +406,11 @@ unfocusColor = base02
 --myFont      = "xft:Go Mono Nerd Font:size=10:bold:antialias=true"
 -- myFont      = "xft:Caskaydia Cove Nerd Font:size=10:bold:antialias=true"
 --myFont      = "xft:Hurmit Nerd Font:size=10:bold:antialias=true"
-myFont      = "xft:Overpass Nerd Font:size=10:bold:antialias=true"
+myFont      = "xft:MonoLisa:size=15:bold:antialias=true"
 --myBigFont   = "xft:Zekton:size=9:bold:antialias=true"
 --myBigFont   = "xft:Zekton:size=9:bold:antialias=true"
-myBigFont   = "xft:Overpass Nerd Font:size=9:bold:antialias=true"
-myWideFont  = "xft:Overpass Nerd Font:style=Regular:pixelsize=180:hinting=true"
+myBigFont   = "xft:MonoLisa:size=9:bold:antialias=true"
+myWideFont  = "xft:MonoLisa:style=Regular:pixelsize=180:hinting=true"
 
 -- Color of current window title in xmobar.
 xmobarTitleColor = yellow
@@ -499,7 +499,7 @@ subtitle' x = ((0,0), NamedAction $ map toUpper
 
 showKeybindings :: [((KeyMask, KeySym), NamedAction)] -> NamedAction
 showKeybindings x = addName "Show Keybindings" $ io $ do
-  h <- spawnPipe $ "yad --text-info --fontname=\"Overpass Nerd Font 12\" --fore=#46d9ff back=#282c36 --center --geometry=1200x800 --title \"XMonad keybindings\""
+  h <- spawnPipe $ "yad --text-info --fontname=\"MonoLisa 12\" --fore=#46d9ff back=#282c36 --center --geometry=1200x800 --title \"XMonad keybindings\""
   --hPutStr h (unlines $ showKm x) -- showKM adds ">>" before subtitles
   hPutStr h (unlines $ showKmSimple x) -- showKmSimple doesn't add ">>" to subtitles
   hClose h
@@ -526,8 +526,9 @@ myKeys c =
   , ("M-S-q t", addName "Restart XMonad"                 $ spawn "xmonad --restart")
   , ("M-S-q w", addName "Recompile and Restart XMonad"   $ sequence_ [spawn ("xmonad --recompile"), spawn ("xmonad --restart")])
   , ("M-S-q ;", addName "Quit XMonad"                    $ io exitSuccess)
-  , ("M-o",   addName "Run prompt"                       $ spawn myLauncher)
-  , ("M-;",   addName "Switch windows"                   $ spawn "rofi -show window")
+  , ("M-o",     addName "Run prompt"                     $ spawn myLauncher)
+  , ("M-;",     addName "Switch windows"                 $ spawn "rofi -show window")
+  , ("M-l",   addName "Lock Workstation"               $ spawn "betterlockscreen -l")
   , ("M-<Return>", addName "Power prompt"                $ spawn "~/.config/rofi-power/rofi-power \"killall xmonad\"")]
 
   ^++^ subKeys "Switch to workspace"
@@ -728,6 +729,7 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 myStartupHook = do 
     spawnOnce "nitrogen --restore &"
     spawnOnce "picom &"
+    spawnOnce "dunst &"
 --    spawnOnce "setxkbmap us -variant colemak_dh"
 
 ------------------------------------------------------------------------
