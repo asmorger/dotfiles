@@ -366,9 +366,9 @@ myLayoutHook = avoidStruts
 -- Colors and borders
 
 -- Width of the window border in pixels.
-myBorderWidth = 3
+myBorderWidth = 1
 
-myNormalBorderColor     = magenta
+myNormalBorderColor     = base0
 myFocusedBorderColor    = green
 
 base03  = "#002b36"

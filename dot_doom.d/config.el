@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Andrew Morger"
+      user-mail-address "asmorger@live.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -21,10 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec  :family  "OverpassMono Nerd Font" :size 15)
-      doom-variable-pitch-font (font-spec  :family  "Overpass Nerd Font" :size 15)
-      doom-big-font (font-spec :family "" :size 18)
-      )
+
+(setq doom-font (font-spec :family "MonoLisa" :size 15))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -36,10 +34,11 @@
 ;; `load-theme' function. This is the default:
 ;;
 ;; `gruvbox-material' contrast and palette options
-(setq doom-gruvbox-material-background  "medium"  ; or hard (defaults to soft)
-     doom-gruvbox-material-palette     "material") ; or original (defaults to material)
+;;(setq doom-gruvbox-material-background  "medium"  ; or hard (defaults to soft)
+;;     doom-gruvbox-material-palette     "material") ; or original (defaults to material)
 
-(setq doom-theme 'doom-gruvbox-material)
+;;(setq doom-theme 'doom-laserwave)
+(setq doom-theme 'doom-miramare)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -50,9 +49,9 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-(after! org
-        (setq org-roam-directory "~/.roam")
-        (setq org-roam-index-file "~/.roam/index.org"))
+;;(after! org
+;;        (setq org-roam-directory "~/org/.roam")
+;;        (setq org-roam-index-file "~/org/.roam/index.org"))
 
 (after! flyspell-lazy
   (flyspell-lazy-mode -1))
@@ -88,3 +87,21 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+
+(setq projectile-project-search-path '("~/dev/"))
+
+(setq org-journal-date-prefix "#+TITLE: "
+      org-journal-time-prefix "* "
+      org-journal-date-format "%a, %m-%d-%Y"
+      org-journal-file-format "%Y-%m-%d.org")
+
+(set-frame-parameter (selected-frame) 'alpha '(70  . 50))
+(add-to-list 'default-frame-alist '(alpha . (70 . 50)))
+
+(set-frame-parameter nil 'alpha-background 75) ; For current frame
+(add-to-list 'default-frame-alist '(alpha-background . 75)) ; For all new frames henceforth
+
+
+;; (add-hook org-mode 'rainbow-mode)
+;; (add-hook prog-mode 'rainbow-mode)
