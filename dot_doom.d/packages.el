@@ -49,3 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;; (package! org-roam-ui)
+(package! rainbow-mode)
+(package! beacon)
