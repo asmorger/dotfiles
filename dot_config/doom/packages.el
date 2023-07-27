@@ -52,3 +52,5 @@
 ;; (package! org-roam-ui)
 (package! rainbow-mode)
 (package! beacon)
+(package! org-super-agenda)
+(package! org-auto-tangle)

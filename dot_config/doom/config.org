@@ -1,4 +1,22 @@
+#+ TITLE: Doom Emacs Configuration
+
+* About Me
+
+#+begin_src emacs-lisp :tangle yes
+(setq user-full-name "Andrew Morger"
+      user-mail-address "andrew@morger.dev")
+#+end_src
+
+* Keybindings
+
+#+begin_src emacs-lisp
 (global-set-key (kbd "M-RET")  'lsp--execute-code-action) ; Alt+Enter
+#+end_src
+
+* Visual Tweaks
+
+** Fonts
+#+begin_src emacs-lisp
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -14,6 +32,10 @@
 ;; (setq! doom-font (font-spec :family "CommitMono" :size 16))
 (setq! doom-unicode-font (font-spec :family "CaskaydiaCove Nerd Font Mono" :size 14))
 
+#+end_src
+** Theme
+#+begin_src emacs-lisp
+
 ;;
 ;; See 'C-h v doom-font' for manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -26,8 +48,17 @@
 ;;(setq doom-theme 'doom-miramare)
 (setq doom-theme 'doom-tomorrow-day)
 
-(setq display-line-numbers-type 'relative)
+#+end_src
 
+** Line Numbers
+
+#+begin_src emacs-lisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+
+* Org Mode
+
+#+begin_src emacs-lisp
 (setq org-directory "~/org/")
 (setq org-roam-directory "~/roam")
 
@@ -36,16 +67,31 @@
 ;;        (setq org-roam-index-file "~/org/.roam/index.org"))
 
 (add-hook 'org-mode-hook 'org-auto-tangle-mode)
+#+end_src
 
+** Org Agenda
+
+#+begin_src emacs-lisp
 (after! org
   (setq org-agenda-files '("~/org/agenda.org")))
 
+#+end_src
+
+** Org Autotangle
+=org-auto-tangle= lets you add the option to =#+ auto_tangle: t= in an Org document so that it automatically tangles upon save
+
+#+begin_src emacs-lisp
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
 
+#+end_src
+
+** Org Journal
+
+#+begin_src emacs-lisp
 (setq org-journal-date-prefix "#+TITLE: "
       org-journal-time-prefix "* "
       org-journal-date-format "%a, %Y-%m-%d"
@@ -55,14 +101,29 @@
       org-agenda-files (directory-files-recursively "~/org/" "\\.org$")
       )
 
+#+end_src
+
+* Plugins
+**  Company
+#+begin_src emacs-lisp
 (setq company-idle-delay 0)
 (setq company-minimum-prefix-length 1)
 (setq company-selection-wrap-around t)
 ;; (company-tng-configure-default)
 
-(setq projectile-project-search-path '(("~/dev/work" . 1) ("~/dev/personal" . 1) ("~/dev/training" . 1)("~/roam") ))
 
+#+end_src
+** Projectile
+#+begin_src emacs-lisp
+(setq projectile-project-search-path '(("~/dev/work" . 1) ("~/dev/personal" . 1) ("~/dev/training" . 1)("~/roam") ))
+#+end_src
+
+**  SpellFu
+#+begin_src emacs-lisp
 (after! spell-fu
   (setq spell-fu-idle-delay 0.5))
-
+#+end_src
+** VTerm
+#+begin_src emacs-lisp
 (setq! vterm-shell "fish")
+#+end_src
