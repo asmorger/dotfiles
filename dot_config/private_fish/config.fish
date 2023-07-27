@@ -5,6 +5,7 @@ end
 # Environment
 set fish_greeting
 export PATH="$HOME/.emacs.d/bin:$PATH"
+export PATH="$HOME/.config/emacs/bin:$PATH"
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
@@ -30,6 +31,8 @@ alias tracert='mtr'
 alias top='btm'
 alias hx='helix'
 alias mm='h-m-m'
+alias cls='clear'
+alias gg='lazygit'
 
 ## Changing "ls" to "exa"
 alias ls='exa -al --color=always --group-directories-first' # my preferred listing
