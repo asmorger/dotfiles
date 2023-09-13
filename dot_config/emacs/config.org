@@ -1,42 +1,93 @@
+
 #+TITLE: Hawkbane's GNU Emacs Config
 #+AUTHOR: Andrew Morger (hawkbane)
 
 #+DESCRIPTION: Hawkbane's personal Emacs config
-#+STARTUP: showeverything
+#+STARTUP: fold
 #+OPTIONS: toc:2
 
 * TABLE OF CONTENTS :toc:
 - [[#important-to-load-first][IMPORTANT TO LOAD FIRST]]
+  - [[#add-scripts-to-path][Add Scripts To Path]]
+  - [[#sourcing-the-scripts][Sourcing the scripts]]
   - [[#packages][Packages]]
   - [[#themes][Themes]]
   - [[#keybindings][Keybindings]]
   - [[#meow][Meow]]
+- [[#all-the-icons][ALL THE ICONS]]
+- [[#backup][Backup]]
+- [[#buffer-move][Buffer Move]]
+- [[#company][COMPANY]]
+- [[#dashboard][Dashboard]]
+- [[#diminish][Diminish]]
+- [[#dired][Dired]]
+- [[#flycheck][FLYCHECK]]
 - [[#fonts][Fonts]]
 - [[#emacs-ui-configurations][Emacs UI Configurations]]
   - [[#disable-ui-elements][Disable UI elements]]
   - [[#show-line-numbers-and-truncated-lines][Show line numbers and truncated lines]]
+- [[#git-programs][GIT PROGRAMS]]
+  - [[#git-time-machine][Git Time Machine]]
+  - [[#magit][Magit]]
+- [[#highlight-todo][HIGHLIGHT TODO]]
+- [[#ivy-counsel][Ivy (Counsel)]]
+- [[#languages][Languages]]
+  - [[#fsharp][FSharp]]
+- [[#minibuffer-escape][Minibuffer Escape]]
+- [[#neotree][NeoTree]]
 - [[#org-mode][ORG MODE]]
   - [[#enable-table-of-contents][Enable Table of Contents]]
   - [[#enable-org-bullets][Enable Org Bullets]]
   - [[#disable-electric-indent][Disable Electric Indent]]
   - [[#enable-tempo][Enable Tempo]]
+- [[#perspective][PERSPECTIVE]]
+- [[#projectile][Projectile]]
+- [[#rainbow-delimiters][RAINBOW DELIMITERS]]
+- [[#rainbow-mode][Rainbow mode]]
+- [[#sane-defaults][SANE DEFAULTS]]
+- [[#shells-and-terminals][Shells and Terminals]]
+  - [[#eshell][Eshell]]
+  - [[#vterm][Vterm]]
+  - [[#vterm-toggle][Vterm-toggle]]
+  - [[#dont-whine-if-there-is-a-terminal-open][Don't Whine If There is a Terminal Open]]
 - [[#sudo-edit][Sudo Edit]]
+- [[#tldr][TLDR]]
+- [[#transparency][Transparency]]
 - [[#which-key][Which Key]]
 
 * IMPORTANT TO LOAD FIRST
+** Add Scripts To Path
+#+begin_src emacs-lisp
+;;(add-to-list 'load-path "~/.config/emacs/scripts"
+#+end_src
+
+** Sourcing the scripts
+#+begin_src emacs-lisp
+
+#+end_src
+
 ** Packages
 #+begin_src emacs-lisp
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(unless package-archive-contents (package-refresh-contents))
 (package-initialize)
 
 (setq use-package-always-ensure t)
 #+end_src
 ** Themes
 #+begin_src emacs-lisp
-(use-package color-theme-sanityinc-tomorrow)
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-tomorrow-day t)
+  (doom-themes-neotree-config)
+  (doom-themes-org-config))
 
-(add-hook 'after-init-hook (lambda () (color-theme-sanityinc-tomorrow-day)))
+
 #+end_src
 
 ** Keybindings
@@ -45,46 +96,110 @@ I'm currently at enough of a n00b that I struggled most of the day to find a way
 
 #+begin_src emacs-lisp
 
-  ;; explanation:
-  ;; taken from: https://github.com/simonkir/dotfiles/blob/master/.emacs.d/config.d/13--keybind-management.el
-  ;;
-  ;; general-def-leader binds into sk:leader-map
-  ;;   → leader keybinds are the same for all major-modes
-  ;;   → keybinds accessible by SPC key using meow keypad mode
-  ;;
-  ;; general-def-localleader binds into mode-specific maps under prefix "<menu>"
-  ;;   → localleader keybinds vary depending on the major-mode
-  ;;   → keybinds currently not accessible in meow keypad mode
+    ;; explanation:
+    ;; taken from: https://github.com/simonkir/dotfiles/blob/master/.emacs.d/config.d/13--keybind-management.el
+    ;;
+    ;; general-def-leader binds into sk:leader-map
+    ;;   → leader keybinds are the same for all major-modes
+    ;;   → keybinds accessible by SPC key using meow keypad mode
+    ;;
+    ;; general-def-localleader binds into mode-specific maps under prefix "<menu>"
+    ;;   → localleader keybinds vary depending on the major-mode
+    ;;   → keybinds currently not accessible in meow keypad mode
 
-  (use-package general
-    :demand t
-    :config
-    (setq asm:leader-map (make-sparse-keymap))
-    (general-create-definer general-def-leader :keymaps 'asm:leader-map)
-    (general-def package-menu-mode-map "U" 'package-menu-mark-upgrades))
-
-   (general-def-leader
-    "." '(find-file :wk "Find File")
-    "f c" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Edit emacs config")
-  )
+    (use-package general
+      :demand t
+      :config
+      (setq asm:leader-map (make-sparse-keymap))
+      (general-create-definer general-def-leader :keymaps 'asm:leader-map)
+      (general-def package-menu-mode-map "U" 'package-menu-mark-upgrades))
+    
+(general-def-leader
+      "b" '(:ignore t :wk "Buffers")
+      "b b" '(switch-to-buffer :wk "Switch buffer")
+      "b i" '(ibuffer :wk "Ibuffer")
+      "b k" '(kill-this-buffer :wk "Kill this buffer")
+      "b n" '(next-buffer :wk "Next buffer")
+      "b p" '(previous-buffer :wk "Previous buffer")
+      "b r" '(revert-buffer :wk "Reload buffer"))
 
   (general-def-leader
-   "e" '(:ignore t :wk "Evaluate")    
-   "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
-   "e d" '(eval-defun :wk "Evaluate defun containing or after point")
-   "e e" '(eval-expression :wk "Evaluate and elisp expression")
-   "e l" '(eval-last-sexp :wk "Evaluate elisp expression before point")
-   "e r" '(eval-region :wk "Evaluate elisp in region")) 
-  
+    "d" '(:ignore t :wk "Dired")
+    "d d" '(dired :wk "Open dired")
+    "d j" '(dired-jump :wk "Dired jump to current")
+    "d n" '(neotree-dir :wk "Open directory in neotree")
+    "d p" '(peep-dired :wk "Peep-dired"))
+
+    (general-def-leader
+     "e" '(:ignore t :wk "Evaluate")    
+     "e b" '(eval-buffer :wk "Evaluate elisp in buffer")
+     "e d" '(eval-defun :wk "Evaluate defun containing or after point")
+     "e e" '(eval-expression :wk "Evaluate and elisp expression")
+     "e l" '(eval-last-sexp :wk "Evaluate elisp expression before point")
+     "e r" '(eval-region :wk "Evaluate elisp in region")) 
+     
+(general-def-leader
+      "." '(find-file :wk "Find File")
+      "f" '(:ignore t :,wk "Files")
+      "f c" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Edit emacs config")
+      "f h" '((lambda () (interactive) (find-file "~/")) :wk "Edit emacs config")
+      "f r" '(counsel-recentf :wk "Find recent files")
+    )
+
+ (general-def-leader
+    "h" '(:ignore t :wk "Help")
+    "h f" '(describe-function :wk "Describe function")
+    "h v" '(describe-variable :wk "Describe variable"))
+
   (general-def-leader
-    "b" '(:ignore t :wk "buffer")
-    "b b" '(switch-to-buffer :wk "Switch buffer")
-    "b i" '(ibuffer :wk "Ibuffer")
-    "b k" '(kill-this-buffer :wk "Kill this buffer")
-    "b n" '(next-buffer :wk "Next buffer")
-    "b p" '(previous-buffer :wk "Previous buffer")
-    "b r" '(revert-buffer :wk "Reload buffer"))
+    "o" '(:ignore t :wk "Org")
+    "o a" '(org-agenda :wk "Org agenda")
+    "o e" '(org-export-dispatch :wk "Org export dispatch")
+    "o i" '(org-toggle-item :wk "Org toggle item")
+    "o t" '(org-todo :wk "Org todo")
+    "o B" '(org-babel-tangle :wk "Org babel tangle")
+    "o T" '(org-todo-list :wk "Org todo list"))
+
+  (general-def-leader
+    "r" '(:ignore t :wk "Reload")
+    ;;"r r" '(reload-init-file :wk "Reload emacs config"))
+    "r r" '((lambda () (interactive)
+             (load-file "~/.config/emacs/init.el"))
+           :wk "Reload emacs config"))
+
+  (general-def-leader
+    "o d" '(:ignore t :wk "Date/deadline")
+    "o d t" '(org-time-stamp :wk "Org time stamp"))
+
+  (general-def-leader
+    "p" '(projectile-command-map :wk "Projectile"))
+    (general-def-leader
+      "t" '(:ignore t :wk "Terminal / Toggle")
+      "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
+      "t n" '(neotree-toggle :wk "Toggle neotree file viewer")
+      "t t" '(vterm-toggle :wk "Toggle vterm")
+      "t h" '(counsel-esh-history :wk "Terminal history"))
+
+    (general-def-leader
+      "w" '(:ignore t :wk "Windows")
+      ;; Window splits
+      "w k" '(delete-window :wk "Close window")
+      "w s" '(split-window-below :wk "Horizontal split window")
+      "w v" '(split-window-right :wk "Vertical split window")
+      ;; Window motions
+      "w m" '(windmove-left :wk "Window left")
+      "w n" '(windmove-down :wk "Window down")
+      "w e" '(windmove-up :wk "Window up")
+      "w i" '(windmove-right :wk "Window right")
+      "w w" '(other-window :wk "Goto next window")
+      ;; Move Windows
+      "w M" '(buf-move-left :wk "Buffer move left")
+      "w N" '(buf-move-down :wk "Buffer move down")
+      "w E" '(buf-move-up :wk "Buffer move up")
+      "w I" '(buf-move-right :wk "Buffer move right"))
 #+end_src
+
+#+RESULTS:
 
 ** Meow
 #+begin_src emacs-lisp
@@ -199,6 +314,188 @@ I'm currently at enough of a n00b that I struggled most of the day to find a way
    (require 'meow)
    (meow-setup)
    (meow-global-mode 1)
+   (setq meow-use-clipboard t)
+
+#+end_src
+* ALL THE ICONS
+This is an icon set that can be used with dashboard, dired, ibuffer and other Emacs programs.
+  
+#+begin_src emacs-lisp
+(use-package all-the-icons
+  :ensure t
+  :if (display-graphic-p))
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+#+end_src
+
+* Backup
+By default, Emacs creates automatic backups of files in their original directories, such "file.el" and the backup "file.el~".  This leads to a lot of clutter, so let's tell Emacs to put all backups that it creates in the =TRASH= directory.
+
+#+begin_src emacs-lisp
+(setq backup-directory-alist '((".*" . "~/.local/share/Trash/files")))
+
+#+end_src
+
+* Buffer Move
+Creating some functions to allow us to easily move windows (splits) around.  The following block of code was taken from buffer-move.el found on the EmacsWiki:
+  https://www.emacswiki.org/emacs/buffer-move.el
+
+#+begin_src emacs-lisp
+(require 'windmove)
+
+;;;###autoload
+(defun buf-move-up ()
+  "Swap the current buffer and the buffer above the split.
+If there is no split, ie now window above the current one, an
+error is signaled."
+;;  "Switches between the current buffer, and the buffer above the
+;;  split, if possible."
+  (interactive)
+  (let* ((other-win (windmove-find-other-window 'up))
+	 (buf-this-buf (window-buffer (selected-window))))
+    (if (null other-win)
+        (error "No window above this one")
+      ;; swap top with this one
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+
+;;;###autoload
+(defun buf-move-down ()
+"Swap the current buffer and the buffer under the split.
+If there is no split, ie now window under the current one, an
+error is signaled."
+  (interactive)
+  (let* ((other-win (windmove-find-other-window 'down))
+	 (buf-this-buf (window-buffer (selected-window))))
+    (if (or (null other-win) 
+            (string-match "^ \\*Minibuf" (buffer-name (window-buffer other-win))))
+        (error "No window under this one")
+      ;; swap top with this one
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+
+;;;###autoload
+(defun buf-move-left ()
+"Swap the current buffer and the buffer on the left of the split.
+If there is no split, ie now window on the left of the current
+one, an error is signaled."
+  (interactive)
+  (let* ((other-win (windmove-find-other-window 'left))
+	 (buf-this-buf (window-buffer (selected-window))))
+    (if (null other-win)
+        (error "No left split")
+      ;; swap top with this one
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+
+;;;###autoload
+(defun buf-move-right ()
+"Swap the current buffer and the buffer on the right of the split.
+If there is no split, ie now window on the right of the current
+one, an error is signaled."
+  (interactive)
+  (let* ((other-win (windmove-find-other-window 'right))
+	 (buf-this-buf (window-buffer (selected-window))))
+    (if (null other-win)
+        (error "No right split")
+      ;; swap top with this one xf
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+#+end_src
+* COMPANY
+[[https://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name stands for "complete anything".  Completion will start automatically after you type a few letters.  Use M-n and M-p to select, <return> to complete or <tab> to complete the common part.
+
+#+begin_src emacs-lisp
+ (use-package company
+  :defer 2
+  :diminish
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 2)
+  (company-show-numbers t)
+  (company-tooltip-align-annotations 't)
+  (global-company-mode t))
+
+(use-package company-box
+  :after company
+  :diminish
+  :hook (company-mode . company-box-mode))
+#+end_src
+
+* Dashboard
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :ensure t 
+    :init
+    (setq initial-buffer-choice 'dashboard-open)
+    (setq dashboard-center-content t)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-banner-logo-title "Emacs Is More Than A Text Editor!")
+    ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+    (setq dashboard-startup-banner "/home/hawkbane/.config/emacs/images/gnu_color.png")  ;; use custom image as banner
+    (setq dashboard-center-content nil) ;; set to 't' for centered content
+    (setq dashboard-items '((recents . 5)
+                            (agenda . 5 )
+                            (bookmarks . 3)
+                            (projects . 3)
+                            (registers . 3)))
+    :custom
+    (dashboard-modify-heading-icons '((recents . "file-text")
+                                      (bookmarks . "book")))
+    :config
+    (dashboard-setup-startup-hook))
+#+end_src
+
+* Diminish
+This package implements hiding or abbreviation of the modeline displays (lighters) of minor-modes.  With this package installed, you can add ':diminish' to any use-package block to hide that particular mode in the modeline.
+
+#+begin_src emacs-lisp
+(use-package diminish)
+
+#+end_src
+
+* Dired
+
+#+begin_src emacs-lisp
+ (use-package dired-open
+  :config
+  (setq dired-open-extensions '(("gif" . "sxiv")
+                                ("jpg" . "sxiv")
+                                ("png" . "sxiv")
+                                ("mkv" . "mpv")
+                                ("mp4" . "mpv"))))
+
+(use-package peep-dired
+  :after dired
+  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :config
+    (evil-define-key 'normal dired-mode-map (kbd "m") 'dired-up-directory)
+    (evil-define-key 'normal dired-mode-map (kbd "i") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+    (evil-define-key 'normal peep-dired-mode-map (kbd "n") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "e") 'peep-dired-prev-file)
+)
+#+end_src
+
+* FLYCHECK
+Install =luacheck= from your Linux distro's repositories for flycheck to work correctly with lua files.  Install =python-pylint= for flycheck to work with python files.  Haskell works with flycheck as long as =haskell-ghc= or =haskell-stack-ghc= is installed.  For more information on language support for flycheck, [[https://www.flycheck.org/en/latest/languages.html][read this]].
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :ensure t
+  :defer t
+  :diminish
+  :init (global-flycheck-mode))
 
 #+end_src
 
@@ -206,14 +503,14 @@ I'm currently at enough of a n00b that I struggled most of the day to find a way
 
 #+begin_src emacs-lisp
 ;; Sets default font on all graphical frames for emacsclient
-(add-to-list 'default-frame-alist '(font . "Intel One Mono-14"))
+(add-to-list 'default-frame-alist '(font . "Hack Nerd Font-14"))
 
 (set-face-attribute 'default nil
-                    :font "Intel One Mono"
+                    :font "Hack Nerd Font"
                     :height 114
                     :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
-                    :font "Intel One Mono"
+                    :font "Hack Nerd Font"
                     :height 114
                     :weight 'medium)
 
@@ -251,8 +548,135 @@ Let's make emacs look a bit better.
 (use-package display-line-numbers)
 
 (global-display-line-numbers-mode 1)
-(setq display-line-numbers 'relative)
+(setq display-line-numbers-type 'relative)
 (global-visual-line-mode 1)
+#+end_src
+
+* GIT PROGRAMS
+
+** Git Time Machine
+[[https://github.com/emacsmirror/git-timemachine][git-timemachine]] is a program that allows you to move backwards and forwards through a file's commits.  'SPC g t' will open the time machine on a file if it is in a git repo.  Then, while in normal mode, you can use 'CTRL-j' and 'CTRL-k' to move backwards and forwards through the commits.
+
+
+#+begin_src emacs-lisp
+(use-package git-timemachine
+  :after git-timemachine
+  :hook (evil-normalize-keymaps . git-timemachine-hook)
+  :config
+    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
+    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
+)
+#+end_src
+
+** Magit
+[[https://magit.vc/manual/][Magit]] is a full-featured git client for Emacs.
+
+#+begin_src emacs-lisp
+(use-package magit)
+
+#+end_src
+
+* HIGHLIGHT TODO
+Adding highlights to TODO and related words.
+
+#+begin_src emacs-lisp
+(use-package hl-todo
+  :hook ((org-mode . hl-todo-mode)
+         (prog-mode . hl-todo-mode))
+  :config
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        `(("TODO"       warning bold)
+          ("FIXME"      error bold)
+          ("HACK"       font-lock-constant-face bold)
+          ("REVIEW"     font-lock-keyword-face bold)
+          ("NOTE"       success bold)
+          ("DEPRECATED" font-lock-doc-face bold))))
+
+#+end_src
+
+
+* Ivy (Counsel)
++ Ivy, a generic completion mechanism for Emacs.
++ Counsel, a collection of Ivy-enhanced versions of common Emacs commands.
++ Ivy-rich allows us to add descriptions alongside the commands in M-x.
+
+#+begin_src emacs-lisp
+  (use-package counsel
+    :ensure t
+    :after ivy
+    :config (counsel-mode))
+
+  (use-package ivy
+    :bind
+    ;; ivy-resume resumes the last Ivy-based completion.
+    (("C-c C-r" . ivy-resume)
+     ("C-x B" . ivy-switch-buffer-other-window))
+    :custom
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "(%d/%d) ")
+    (setq enable-recursive-minibuffers t)
+    :config
+    (ivy-mode))
+
+  (use-package all-the-icons-ivy-rich
+    :ensure t
+    :after ivy
+    :init (all-the-icons-ivy-rich-mode 1))
+
+  (use-package ivy-rich
+    :after ivy
+    :init (ivy-rich-mode 1) ;; this gets us descriptions in M-x.
+    :custom
+    (ivy-virtual-abbreviate 'full
+     ivy-rich-switch-buffer-align-virtual-buffer t
+     ivy-rich-path-style 'abbrev)
+    :config
+    (ivy-set-display-transformer 'ivy-switch-buffer
+                                 'ivy-rich-switch-buffer-transformer))
+#+end_src
+
+* Languages
+** FSharp
+#+begin_src emacs-lisp
+(use-package fsharp-mode
+  :defer t
+  :ensure t)
+
+#+end_src
+* Minibuffer Escape
+By default, Emacs requires you to hit ESC three times to escape quit the minibuffer.  
+
+#+begin_src emacs-lisp
+(global-set-key [escape] 'keyboard-escape-quit)
+#+end_src
+
+* NeoTree
+
+Neotree is a file tree viewer.  When you open neotree, it jumps to the current file thanks to neo-smart-open.  The neo-window-fixed-size setting makes the neotree width be adjustable.  NeoTree provides following themes: classic, ascii, arrow, icons, and nerd.  Theme can be configed by setting "two" themes for neo-theme: one for the GUI and one for the terminal.  I like to use 'SPC t' for 'toggle' keybindings, so I have used 'SPC t n' for toggle-neotree.
+
+| COMMAND        | DESCRIPTION               | KEYBINDING |
+|----------------+---------------------------+------------|
+| neotree-toggle | /Toggle neotree/            | SPC t n    |
+| neotree- dir   | /Open directory in neotree/ | SPC d n    |
+
+#+begin_src emacs-lisp
+(use-package neotree
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 55
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t
+        projectile-switch-project-action 'neotree-projectile-action) 
+        ;; truncate long file names in neotree
+        (add-hook 'neo-after-create-hook
+           #'(lambda (_)
+               (with-current-buffer (get-buffer neo-buffer-name)
+                 (setq truncate-lines t)
+                 (setq word-wrap nil)
+                 (make-local-variable 'auto-hscroll-mode)
+                 (setq auto-hscroll-mode nil)))))
 #+end_src
 
 * ORG MODE
@@ -269,11 +693,14 @@ Let's make emacs look a bit better.
 (use-package org-superstar)
 (add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 #+end_src 
+
 ** Disable Electric Indent
 Source code blocks have some weird and unintuitive indentation rules.  Turn it off.
 #+begin_src emacs-lisp
 (electric-indent-mode -1)
+(setq org-edit-src-content-indentation 0)
 #+end_src
+
 ** Enable Tempo
 Org-tempo is not a separate package but a module within org that can be enabled.  Org-tempo allows for '<s' followed by TAB to expand to a begin_src tag.  Other expansions available include:
 
@@ -293,15 +720,182 @@ Org-tempo is not a separate package but a module within org that can be enabled.
 #+begin_src emacs-lisp
 (require 'org-tempo)
 #+end_src
+
+* PERSPECTIVE
+[[https://github.com/nex3/perspective-el][Perspective]] provides multiple named workspaces (or "perspectives") in Emacs, similar to multiple desktops in window managers.  Each perspective has its own buffer list and its own window layout, along with some other isolated niceties, like the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Xref.html][xref]] ring.
+
+#+begin_src emacs-lisp
+(use-package perspective
+  :custom
+  ;; NOTE! I have also set 'SCP =' to open the perspective menu.
+  ;; I'm only setting the additional binding because setting it
+  ;; helps suppress an annoying warning message.
+  (persp-mode-prefix-key (kbd "C-c M-p"))
+  :init 
+  (persp-mode)
+  :config
+  ;; Sets a file to write to when we save states
+  (setq persp-state-default-file "~/.config/emacs/sessions"))
+
+;; This will group buffers by persp-name in ibuffer.
+(add-hook 'ibuffer-hook
+          (lambda ()
+            (persp-ibuffer-set-filter-groups)
+            (unless (eq ibuffer-sorting-mode 'alphabetic)
+              (ibuffer-do-sort-by-alphabetic))))
+
+;; Automatically save perspective states to file when Emacs exits.
+(add-hook 'kill-emacs-hook #'persp-state-save)
+
+#+end_src
+
+* Projectile
+[[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs.  It should be noted that many projectile commands do not work if you have set "fish" as the "shell-file-name" for Emacs.  I had initially set "fish" as the "shell-file-name" in the Vterm section of this config, but oddly enough I changed it to "bin/sh" and projectile now works as expected, and Vterm still uses "fish" because my default user "sh" on my Linux system is "fish".
+
+#+begin_src emacs-lisp
+(use-package projectile
+  :diminish
+  :config
+  (projectile-mode 1))
+
+(setq projectile-project-search-path '(("~/dev/work" . 1) ("~/dev/personal" . 1) ("~/dev/training" . 1)("~/roam") ))
+#+end_src
+
+* RAINBOW DELIMITERS
+Adding rainbow coloring to parentheses.
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :hook ((emacs-lisp-mode . rainbow-delimiters-mode)
+         (clojure-mode . rainbow-delimiters-mode)))
+
+#+end_src
+
+* Rainbow mode
+Display the actual color of hex values
+#+begin_src emacs-lisp
+(use-package rainbow-mode
+  :diminish
+  :hook 
+  ((org-mode prog-mode) . rainbow-mode))
+#+end_src
+
+* SANE DEFAULTS
+The following settings are simple modes that are enabled (or disabled) so that Emacs functions more like you would expect a proper editor/IDE to function.
+
+#+begin_src emacs-lisp
+(delete-selection-mode 1)    ;; You can select text and delete it by typing.
+(electric-indent-mode -1)    ;; Turn off the weird indenting that Emacs does by default.
+(electric-pair-mode 1)       ;; Turns on automatic parens pairing
+;; The following prevents <> from auto-pairing when electric-pair-mode is on.
+;; Otherwise, org-tempo is broken when you try to <s TAB...
+(add-hook 'org-mode-hook (lambda ()
+           (setq-local electric-pair-inhibit-predicate
+                   `(lambda (c)
+                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
+(global-auto-revert-mode t)  ;; Automatically show changes if the file has changed
+(global-display-line-numbers-mode 1) ;; Display line numbers
+(global-visual-line-mode t)  ;; Enable truncated lines
+(menu-bar-mode -1)           ;; Disable the menu bar 
+(scroll-bar-mode -1)         ;; Disable the scroll bar
+(tool-bar-mode -1)           ;; Disable the tool bar
+(setq org-edit-src-content-indentation 0) ;; Set src block automatic indent to 0 instead of 2.
+
+#+end_src
+
+* Shells and Terminals
+** Eshell
+
+Eshell is an Emacs ‘shell’ that is written in Elisp.
+#+begin_src emacs-lisp
+(use-package eshell-syntax-highlighting
+  :after esh-mode
+  :config
+  (eshell-syntax-highlighting-global-mode +1))
+
+;; eshell-syntax-highlighting -- adds fish/zsh-like syntax highlighting.
+;; eshell-rc-script -- your profile for eshell; like a bashrc for eshell.
+;; eshell-aliases-file -- sets an aliases file for the eshell.
+  
+(setq eshell-rc-script (concat user-emacs-directory "eshell/profile")
+      eshell-aliases-file (concat user-emacs-directory "eshell/aliases")
+      eshell-history-size 5000
+      eshell-buffer-maximum-lines 5000
+      eshell-hist-ignoredups t
+      eshell-scroll-to-bottom-on-input t
+      eshell-destroy-buffer-when-process-dies t
+      eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
+#+end_src
+
+** Vterm
+Vterm is a terminal emulator within Emacs.  The ‘shell-file-name’ setting sets the shell to be used in M-x shell, M-x term, M-x ansi-term and M-x vterm.  By default, the shell is set to ‘fish’ but could change it to ‘bash’ or ‘zsh’ if you prefer.
+#+begin_src emacs-lisp
+(use-package vterm
+:config
+(setq shell-file-name "/bin/sh"
+      vterm-max-scrollback 5000))
+#+end_src
+
+** Vterm-toggle
+[[https://github.com/jixiuf/vterm-toggle][vterm-toggle]] toggles between the vterm buffer and whatever buffer you are editing.
+#+begin_src emacs-lisp
+(use-package vterm-toggle
+  :ensure t
+  :after vterm
+  :config
+  (setq vterm-toggle-fullscreen-p nil)
+  (setq vterm-toggle-scope 'project)
+  (add-to-list 'display-buffer-alist
+               '((lambda (buffer-or-name _)
+                     (let ((buffer (get-buffer buffer-or-name)))
+                       (with-current-buffer buffer
+                         (or (equal major-mode 'vterm-mode)
+                             (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+                  (display-buffer-reuse-window display-buffer-at-bottom)
+                  ;;(display-buffer-reuse-window display-buffer-in-direction)
+                  ;;display-buffer-in-direction/direction/dedicated is added in emacs27
+                  ;;(direction . bottom)
+                  ;;(dedicated . t) ;dedicated is supported in emacs27
+                  (reusable-frames . visible)
+                  (window-height . 0.3))))
+
+#+end_src
+** Don't Whine If There is a Terminal Open
+
+If you have toggled a terminal open, but not explictly killed it, the process will still be running.  When you go to exit Emacs, you will get a user prompt that it's ok to kill that process.  This will swallow that message for terminals.
+
+#+begin_src emacs-lisp
+    (defun set-no-process-query-on-exit ()
+      (let ((proc (get-buffer-process (current-buffer))))
+      (when (processp proc)
+      (set-process-query-on-exit-flag proc nil))))
+
+    (add-hook 'term-exec-hook 'set-no-process-query-on-exit)
+#+end_src
 * Sudo Edit
 #+begin_src emacs-lisp
 (use-package sudo-edit)
 #+end_src
+
+* TLDR
+
+#+begin_src emacs-lisp
+;; (use-package tldr)
+#+end_src
+
+* Transparency
+
+#+begin_src emacs-lisp
+;;(set-frame-parameter nil 'alpha-background 100)
+;;(add-to-list 'default-frame-alist '(alpha-background . 100))
+#+end_src
+
 * Which Key
 #+begin_src emacs-lisp
 (use-package which-key
   :init
     (which-key-mode 1)
+  :diminish
   :config
     (setq which-key-side-window-location 'bottom
           which-key-sort-order #'which-key-key-order
