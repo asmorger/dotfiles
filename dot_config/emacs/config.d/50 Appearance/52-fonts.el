@@ -4,13 +4,13 @@
 
 ;; Sets default font on all graphical frames for emacsclient
 (set-frame-font "Intel One Mono 12")
-(add-to-list  'default-frame-alist '(font . "Intel One Mono 12"))
+(add-to-list  'default-frame-alist '(font . "Monaspace Krypton 14"))
 
 (set-face-attribute 'default nil
-                    :font "Intel One Mono 12"
+                    :font "Monaspace Krypton 14"
                     :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
-                    :font "Intel One Mono 12"
+                    :font "Monaspace Krypton 14"
                     :weight 'medium)
 
 ;; Makes commented text and keywords italics.

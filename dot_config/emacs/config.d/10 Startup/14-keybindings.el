@@ -83,9 +83,9 @@
   "n D" '(org-roam-dailies-goto-date :wk "Go to journal for day")
   "n B" '(org-roam-dailies-goto-previous-note :wk "Goto previous note")
   "n F" '(org-roam-dailies-goto-next-note :wk "Goto next note")
-  "n p f" '(my/org-roam-find-project :wk "Go to Project")
-  "n p i" '(my/org-roam-capture-inbox :wk "Capture Inbox")
-  "n p t" '(my/org-roam-cature-task :wk "Capture Project task")
+  ;; "n p f" '(my/org-roam-find-project :wk "Go to Project")
+  ;; "n p i" '(my/org-roam-capture-inbox :wk "Capture Inbox")
+  ;; "n p t" '(my/org-roam-cature-task :wk "Capture Project task")
   )
 
 (general-def-leader
