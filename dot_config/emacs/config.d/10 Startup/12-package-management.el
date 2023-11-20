@@ -41,3 +41,47 @@
 ;;   :config
 ;;   (auto-package-update-maybe)
 ;;   (auto-package-update-at-time "09:00"))
+
+
+  (straight-use-package '(setup :type git :host nil :repo "https://git.sr.ht/~pkal/setup"))
+  (require 'setup)
+
+  (setup-define :disabled
+    (lambda ()
+      `,(setup-quit))
+    :documentation "Always stop evaluating the body.")
+
+  (setup-define :load-after
+      (lambda (features &rest body)
+        (let ((body `(progn
+                       (require ',(setup-get 'feature))
+                       ,@body)))
+          (dolist (feature (if (listp features)
+                               (nreverse features)
+                             (list features)))
+            (setq body `(with-eval-after-load ',feature ,body)))
+          body))
+    :documentation "Load the current feature after FEATURES."
+    :indent 1)
+
+  (setup-define :file-match
+    (lambda (regexp)
+      `(add-to-list 'auto-mode-alist (cons ,regexp ',(setup-get 'mode))))
+    :documentation "Associate the current mode with files that match REGEXP."
+    :debug '(form)
+    :repeatable t)
+
+  (setup-define :load-from
+      (lambda (path)
+        `(let ((path* (expand-file-name ,path)))
+           (if (file-exists-p path*)
+               (add-to-list 'load-path path*)
+             ,(setup-quit))))
+    :documentation "Add PATH to load path.
+  This macro can be used as NAME, and it will replace itself with
+  the nondirectory part of PATH.
+  If PATH does not exist, abort the evaluation."
+    :shorthand (lambda (args)
+                 (intern
+                  (file-name-nondirectory
+                   (directory-file-name (cadr args))))))

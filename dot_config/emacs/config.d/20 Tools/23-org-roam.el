@@ -21,6 +21,8 @@
               ("M-<tab>" . completion-at-point))
   :config
   (require 'org-roam-dailies)
+  (unless (< emacs-major-version 29)
+    (setq org-roam-database-connector 'sqlite-builtin))
   (org-roam-db-autosync-mode))
 
 

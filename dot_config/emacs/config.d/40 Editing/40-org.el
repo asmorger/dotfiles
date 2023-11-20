@@ -24,12 +24,29 @@
   :after org
   :hook (org-mode . org-superstar-mode)
   :custom
-    (org-superstar-remove-leading-stars t)
-    (org-superstar-headline-bullets-list '("✪" "○" "✸" "◉" )))
+  (org-superstar-remove-leading-stars t)
+  (org-superstar-special-todo-items t)
+  (org-superstar-item-bullet-alist '((?- . ?•) (?* . ?–) (?+ . ?◦)))
+  (org-superstar-prettify-item-bullets t)
+  (org-superstar-todo-bullet-alist '(("DONE" . ?✔)
+                                     ("TODO" . ?⌖)
+                                     ("ISSUE" . ?)))
+  (org-superstar-headline-bullets-list '("✪" "○" "✸" "◉" )))
 
-;; org bullets
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-)
+;; https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/
+(add-hook 'org-mode-hook (lambda ()
+  "Beautify Org Checkbox Symbol"
+  (push '("[ ]" .  "☐") prettify-symbols-alist)
+  (push '("[X]" . "☑" ) prettify-symbols-alist)
+  (push '("[-]" . "❍" ) prettify-symbols-alist)
+  (prettify-symbols-mode)))
 
+(defface org-checkbox-done-text
+  '((t (:foreground "#71696A" :strike-through t)))
+  "Face for the text part of a checked org-mode checkbox.")
+
+(font-lock-add-keywords
+ 'org-mode
+ `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
+    1 'org-checkbox-done-text prepend))
+ 'append)
