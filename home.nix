@@ -96,6 +96,12 @@
     ".atamanrc.config".source = ./config/atamanrc.config;
     ".ideavimrc".source = ./config/ideavimrc;
     ".xmonad/xmonad.hs".source = ./config/xmonad/xmonad.hs;
+
+    ".config/xmobar/xmobarrc".source = ./config/xmobar/xmobarrc;
+    ".config/xmobar/get-volume.sh" = {
+      source = ./config/xmobar/get-volume.sh
+      executable = true;
+    }
   };
 
   # Home Manager can also manage your environment variables through
