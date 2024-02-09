@@ -93,6 +93,8 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+    ".atamanrc.config".source = ./config/atamanrc.config;
+    ".ideavimrc".source = ./config/ideavimrc;
     ".xmonad/xmonad.hs".source = ./config/xmonad/xmonad.hs;
   };
 
