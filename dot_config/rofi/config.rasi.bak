@@ -1,8 +1,0 @@
-@theme "/usr/share/rofi/themes/gruvbox-dark.rasi"
-
-configuration {
-  font: "JetBrainsMono Nerd Font 11";
-  show-icons: false;
-
-  fixed-num-lines: true;
-}
