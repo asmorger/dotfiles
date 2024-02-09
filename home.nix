@@ -40,11 +40,42 @@
 
     # system tools
     nixpkgs-fmt
+    fd
     fzf
+    bandwhich
     bat
     bottom
+    delta
+    du-dust
     eza
+    jq
+    github-cli
+    ripgrep
+    ripgrep-all
   ];
+
+  home.shellAliases = {
+    "reload" = "home-manager switch . --flake .";
+  };
+
+  programs = {
+    bat.enable = true;
+
+    eza = {
+      enable = true;
+      enableAliases = true;
+    };
+
+    gh = {
+      enable = true;
+      # Note: copy to places you want gh settings set
+      settings = {
+        git_protocol = "https";
+        prompt = "enabled";
+      };
+    };
+
+  };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
