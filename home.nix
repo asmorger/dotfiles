@@ -60,11 +60,14 @@
 
   programs = {
     bat.enable = true;
+    # direnv.enable = true;
 
     eza = {
       enable = true;
       enableAliases = true;
     };
+
+    # fish.enable = true;
 
     gh = {
       enable = true;
@@ -90,6 +93,7 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+    ".xmonad/xmonad.hs".source = ./config/xmonad/xmonad.hs;
   };
 
   # Home Manager can also manage your environment variables through
