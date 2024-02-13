@@ -99,9 +99,11 @@
 
     ".config/xmobar/xmobarrc".source = ./config/xmobar/xmobarrc;
     ".config/xmobar/get-volume.sh" = {
-      source = ./config/xmobar/get-volume.sh
+      source = ./config/xmobar/get-volume.sh;
       executable = true;
-    }
+    };
+
+    ".config/emacs-profiles/".source = ./config/emacs;
   };
 
   # Home Manager can also manage your environment variables through
