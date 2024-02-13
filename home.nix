@@ -103,6 +103,8 @@
       executable = true;
     };
 
+    ".emacs-profile".source = ./config/.emacs-profile;
+    ".emacs-profiles.el".source = ./config/.emacs-profiles.el;
     ".config/emacs-profiles/".source = ./config/emacs;
   };
 
