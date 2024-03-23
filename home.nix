@@ -52,6 +52,7 @@
     github-cli
     ripgrep
     ripgrep-all
+    difftastic
   ];
 
   home.shellAliases = {
