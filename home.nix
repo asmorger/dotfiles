@@ -36,7 +36,7 @@
     # '')
 
     # languages
-    dotnet-sdk_8
+    # dotnet-sdk_8
 
     # system tools
     nixpkgs-fmt
@@ -60,12 +60,20 @@
 
   programs = {
     bat.enable = true;
-    # direnv.enable = true;
+    # direnv = {
+    #  enable = true;
+    #  enableFishIntegration = true;
+    #  nix-direnv.enable = true;
+    # };
 
     eza = {
       enable = true;
       enableAliases = true;
     };
+
+    #fish = {
+    #  enable = true;
+    #};
 
     # fish.enable = true;
 
@@ -77,6 +85,11 @@
         prompt = "enabled";
       };
     };
+
+    #zoxide = {
+    #  enable = true;
+    #  enableFishIntegration = true;
+    #};
 
   };
 

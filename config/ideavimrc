@@ -25,7 +25,7 @@ set scrolloff=5
 " Do incremental searching.
 set incsearch
 
-set timeoutlen=5000 
+set timeoutlen=5000
 let g:WhichKey_ShowVimActions = "true"
 
 " Don't use Ex mode, use Q for formatting.
@@ -60,7 +60,7 @@ map <Leader>gd <Action>(Vcs.ShowDiffWithLocal)
 " Code navigation
 let g:WhichKeyDesc_codeNavGroup = "<leader>s Search"
 let g:WhichKeyDesc_find = "<leader>ss Find"
-map <Leader>ss <Action>(Find)
+map <Leader>ss <Action>(AceAction)
 
 let g:WhichKeyDesc_replace = "<leader>sr Replace"
 map <Leader>sr <Action>(Replace)
