@@ -83,6 +83,15 @@ map <Leader>si <Action>(GotoSymbol)
 let g:WhichKeyDesc_goToAction = "<leader>sa Goto Action"
 map <Leader>sa <Action>(GotoAction)
 
+let g:WhichKeyDesc_activateAceJump = "<leader sn Activate Ace Jump"
+map <Leader>sn <Action>(AceAction)
+
+let g:WhickeyDes_activateAceJumpTargetMode = "<leader>sN Target Mode Ace Jump"
+map <Leader> sN <Action>(AceTargetAction)
+
+let g:WhiceyDec_aceJumpGotoLine = "<leader> sg Ace Jump Line Mode"
+map <Leader>sg <Action>(AceLineAction)
+
 let g:WhichKeyDesc_searchEverywhere = "<leader>se Search Everywhere"
 map <Leader>se <Action>(SearchEverywhere)
 
