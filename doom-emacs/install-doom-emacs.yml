@@ -79,3 +79,8 @@
         cmd: "{{ lookup('env', 'HOME') }}/.config/emacs/bin/doom sync"
       args:
         executable: /bin/bash
+
+    - name: "Remove .emacs.d"
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.emacs.d"
+        state: absent
