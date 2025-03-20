@@ -15,4 +15,8 @@
         - emacs-common
         - eza
         - btop
+        - stow
+        - curl
+        - jq
+        - unzip
       state: present
