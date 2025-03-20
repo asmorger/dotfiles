@@ -12,4 +12,6 @@
         - fd-find
         - emacs
         - emacs-common
+        - eza
+        - btop
       state: present
