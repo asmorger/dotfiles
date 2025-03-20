@@ -1,0 +1,81 @@
+---
+
+- name: "Install Doom Emacs"
+  hosts: localhost
+  become: false
+  tasks:
+    - name: "Make emacs directory"
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.config/emacs"
+        state: directory
+        mode: '0700'
+
+    - name: "Make doom directory"
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.config/doom"
+        state: directory
+        mode: '0700'
+
+    - name: "Download Doom Emacs"
+      ansible.builtin.git:
+        clone: true
+        repo: https://github.com/doomemacs/doomemacs
+        depth: 1
+        dest: "{{ lookup('env', 'HOME') }}/.config/emacs"
+
+    - name: "Download all-the-icons"
+      ansible.builtin.git:
+        clone: true
+        repo: https://github.com/domtronn/all-the-icons.el
+        dest: /tmp/all-the-icons-fonts
+      environment:
+        GIT_TERMINAL_PROMPT: 0
+        GIT_ASKPASS: /bin/true
+
+    - name: "Copy all-the-icons-fonts"
+      ansible.builtin.copy:
+        src: /tmp/all-the-icons-fonts/fonts
+        dest: "{{ lookup('env', 'HOME') }}/.local/share/fonts"
+        backup: true
+
+    - name: "Clean up /tmp/all-the-icons-fonts"
+      ansible.builtin.file:
+        path: /tmp/all-the-icons-fonts
+        state: absent
+
+    - name: "Download nerd-icons (NFM.ttf)"
+      ansible.builtin.git:
+        clone: true
+        repo: https://github.com/rainstormstudio/nerd-icons.el
+        dest: /tmp/nerd-icons-fonts
+      environment:
+        GIT_TERMINAL_PROMPT: 0
+        GIT_ASKPASS: /bin/true
+
+    - name: "Copy nerd-icons (NFM.ttf)"
+      ansible.builtin.copy:
+        src: /tmp/nerd-icons-fonts/fonts/NFM.ttf
+        dest: "{{ lookup('env', 'HOME') }}/.local/share/fonts"
+        backup: true
+
+    - name: "Clean up /tmp/nerd-icons-fonts"
+      ansible.builtin.file:
+        path: /tmp/nerd-icons-fonts
+        state: absent
+
+    - name: "Install Doom Emacs"
+      ansible.builtin.shell:
+        cmd: "{{ lookup('env', 'HOME') }}/.config/emacs/bin/doom install --config --env --install --fonts --hooks --color --force"
+      args:
+        executable: /bin/bash
+
+    - name: "Run doom install"
+      ansible.builtin.shell:
+        cmd: "{{ lookup('env', 'HOME') }}/.config/emacs/bin/doom install"
+      args:
+        executable: /bin/bash
+    - name: "Run doom sync"
+      ansible.builtin.shell:
+        cmd: "{{ lookup('env', 'HOME') }}/.config/emacs/bin/doom sync"
+      args:
+        executable: /bin/bash
