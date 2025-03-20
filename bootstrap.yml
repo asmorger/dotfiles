@@ -1,5 +1,8 @@
 - name: Bootstrap development environment
   hosts: localhost
+  roles:
+    - role: gantsign.lazygit
+    - role: gantsign.visual-studio-code
 
   tasks:
   - name: Install pacakges with apt
