@@ -1,9 +1,7 @@
 - name: Bootstrap development environment
   hosts: localhost
   roles:
-    - role: gantsign.lazygit
-    - role: gantsign.visual-studio-code
-
+    - role: doom-emacs
   tasks:
   - name: Install pacakges with apt
     become: yes
