@@ -84,3 +84,21 @@
       ansible.builtin.file:
         path: "{{ lookup('env', 'HOME') }}/.emacs.d"
         state: absent
+
+    - name: "Make systemd user folder"
+      ansible.builtin.file:
+        path: "{{ lookup('env', 'HOME') }}/.config/systemd/user"
+        state: directory
+        mode: '0700'
+
+    - name: "Install emacs service"
+      template:
+        src: emacs.service.j2
+        dest:  "{{ lookup('env', 'HOME') }}/.config/systemd/user/emacs.service"
+
+    - name: "Start emacs service"
+      systemd:
+        name: emacs
+        scope: user
+        enabled: true
+        state: started
