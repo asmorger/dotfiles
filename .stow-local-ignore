@@ -21,3 +21,7 @@ _darcs
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
+
+# My repo structure
+ansible
+dot_config
