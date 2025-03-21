@@ -17,8 +17,9 @@
   roles:
     - nerd-fonts
     - doom-emacs
+    - zoxide
     - starship
-    - next-dns
+    :- next-dns
   tasks:
   - name: Install pacakges with apt
     become: yes
@@ -26,6 +27,7 @@
       name:
         - git
         - fish
+        - fzf
         - ripgrep
         - fd-find
         - emacs
