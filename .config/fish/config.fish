@@ -14,6 +14,7 @@ export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 export PATH="$PATH:$HOME/.local/bin:$PATH"
 export DOTNET_ROOT="$HOME/.dotnet"
 export PATH="$PATH:$HOME/.dotnet:$HOME/.dotnet/tools"
+export PATH="$PATH:$HOME/.local/bin"
 
 export npm_config_prefix="$HOME/.local"
 export EDITOR="/usr/bin/emacsclient -nc -a 'emacs'"
