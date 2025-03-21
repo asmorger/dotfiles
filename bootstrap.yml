@@ -19,7 +19,8 @@
     - doom-emacs
     - zoxide
     - starship
-    :- next-dns
+    - next-dns
+    - tailscale
   tasks:
   - name: Install pacakges with apt
     become: yes
