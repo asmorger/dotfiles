@@ -12,11 +12,13 @@
       - Hack
       - JetBrainsMono
       - Monaspace
+    nextdns_id: 365887
 
   roles:
     - nerd-fonts
     - doom-emacs
     - starship
+    - next-dns
   tasks:
   - name: Install pacakges with apt
     become: yes
