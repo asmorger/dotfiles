@@ -1,0 +1,15 @@
+---
+
+- name: Get Starship Install Script
+  ansible.builtin.get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/starship_install.sh
+    mode: '0755'
+  register: starship_install_script
+
+- name: Install Starship with script
+  become: true
+  ansible.builtin.shell:
+    cmd: /tmp/starship_install.sh --yes
+    executable: /bin/sh
+  when: starship_install_script.changed

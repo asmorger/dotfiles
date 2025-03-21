@@ -16,6 +16,7 @@
   roles:
     - nerd-fonts
     - doom-emacs
+    - starship
   tasks:
   - name: Install pacakges with apt
     become: yes
