@@ -1,3 +1,0 @@
-* My dotfiles
-
-A [[https://www.chezmoi.io/][chezmoi]] synced repository of my config files
