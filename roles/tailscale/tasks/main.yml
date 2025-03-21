@@ -13,3 +13,8 @@
     cmd: /tmp/tailscale_install.sh
     executable: /bin/sh
   when: tailscale_install_script.changed
+
+- name: Prompt tailscale login
+  ansible.builtin.debug:
+    msg: Please run 'sudo tailscale up' to finish setting up Tailscale
+  when: tailscale_install_script.changed
