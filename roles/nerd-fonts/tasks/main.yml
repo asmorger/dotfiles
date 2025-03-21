@@ -1,0 +1,22 @@
+---
+- name: Check existing directory for {{ item }}
+  stat:
+    path: '/usr/local/share/fonts/{{ item }}'
+  register: font_dir
+  loop: "{{ nerd_fonts }}"
+
+- name: Create directory for {{ item }}
+  become: true
+  ansible.builtin.file:
+    path: '/usr/local/share/fonts/{{ item  }}'
+    mode: 0775
+    state: directory
+  loop: "{{ nerd_fonts }}"
+
+- name: Download and extract {{ item }}
+  become: true
+  ansible.builtin.unarchive:
+    src: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item }}.tar.xz"
+    dest: "/usr/local/share/fonts/{{ item }}"
+    remote_src: true
+  loop: "{{ nerd_fonts }}"
