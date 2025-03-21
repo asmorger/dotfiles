@@ -23,4 +23,6 @@ _darcs
 ^/COPYING
 
 # My repo structure
-ansible
+bootstrap.yml
+roles
+install.sh
