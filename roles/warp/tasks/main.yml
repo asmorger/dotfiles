@@ -1,0 +1,14 @@
+---
+
+- name: Get Warp deb package
+  ansible.builtin.get_url:
+    url: https://app.warp.dev/get_warp?package=deb
+    dest: /tmp/warp_install.deb
+    mode: '0755'
+  register: warp_install_script
+
+- name: Install Warp
+  become: true
+  apt:
+    deb: /tmp/warp_install.deb
+  when: warp_install_script.changed

@@ -21,6 +21,7 @@
     - starship
     - next-dns
     - tailscale
+    - vscode
   tasks:
   - name: Install pacakges with apt
     become: yes
