@@ -1,0 +1,17 @@
+---
+
+- name: Download dotNet install script
+  ansible.builtin.get_url:
+    url: https://dot.net/v1/dotnet-install.sh
+    dest: /tmp/dotnet_install.sh
+    mode: '0755'
+
+- name: Install dotNet 9.0
+  ansible.builtin.shell: ./dotnet_install.sh --channel 9.0
+  args:
+    chdir: /tmp
+
+- name: Install dotNet 8.0
+  ansible.builtin.shell: ./dotnet_install.sh --channel 8.0
+  args:
+    chdir: /tmp

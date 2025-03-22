@@ -22,7 +22,8 @@
     #- next-dns
     #- tailscale
     #- vscode
-    - color-scripts
+    #- color-scripts
+    - dotnet
   tasks:
   - name: Install pacakges with apt
     become: yes
@@ -36,6 +37,7 @@
         - emacs
         - emacs-common
         - eza
+        - bat
         - btop
         - stow
         - curl
