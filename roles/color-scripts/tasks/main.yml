@@ -1,0 +1,14 @@
+---
+
+- name: Clone Color Scripts Repository
+  ansible.builtin.git:
+    repo: 'https://gitlab.com/dwt1/shell-color-scripts.git'
+    dest: /tmp/color-scripts
+  register: color_script_clone
+
+- name: Make Color Scripts
+  community.general.make:
+    chdir: /tmp/color-scripts
+    target: install
+  become: true
+  when: color_script_clone.changed

@@ -15,13 +15,14 @@
     nextdns_id: 365887
 
   roles:
-    - nerd-fonts
-    - doom-emacs
-    - zoxide
-    - starship
-    - next-dns
-    - tailscale
-    - vscode
+    #- nerd-fonts
+    #- doom-emacs
+    #- zoxide
+    #- starship
+    #- next-dns
+    #- tailscale
+    #- vscode
+    - color-scripts
   tasks:
   - name: Install pacakges with apt
     become: yes
