@@ -27,6 +27,7 @@ complete -f -c dotnet -a "(dotnet complete)"
 
 alias vim='nvim'
 alias emacs='emacsclient -nc -a "emacs"'
+alias em='emacsclient'
 alias cat='bat'
 alias tracert='mtr'
 alias top='btm'
