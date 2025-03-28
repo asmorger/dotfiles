@@ -22,7 +22,8 @@
 ;; accept. For example:
 ;;
 
-(setq doom-font (font-spec :family "MonoLisa" :size 15))
+(setq doom-font (font-spec :family "0xProto Nerd Font" :size 15))
+(setq doom-theme 'doom-miramare)
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -102,6 +103,7 @@
 (set-frame-parameter nil 'alpha-background 75) ; For current frame
 (add-to-list 'default-frame-alist '(alpha-background . 75)) ; For all new frames henceforth
 
+(setq gui-select-enable-clipboard 't)
 
 ;; (add-hook org-mode 'rainbow-mode)
 ;; (add-hook prog-mode 'rainbow-mode)
