@@ -1,0 +1,15 @@
+---
+
+- name: Download Docker Install Script
+  get_url:
+    url: https://get.docker.com
+    dest: /tmp/get_docker.sh
+
+- name: Install Docker
+  shell: sh /tmp/get_docker.sh
+  become: true
+
+- name: Remove Docker Install Script
+  file:
+    path: /tmp/get_docker.sh
+    state: absent

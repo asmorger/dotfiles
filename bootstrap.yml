@@ -26,7 +26,9 @@
     #- tailscale
     #- vscode
     #- color-scripts
-    - dotnet
+    #- dotnet
+    #- jetbrains
+    - docker
   tasks:
   - name: Install pacakges with apt
     become: yes
