@@ -15,7 +15,7 @@
        ((and (eq isdir nil) (string= (substring path -3) ".el"))
         (load (file-name-sans-extension fullpath)))))))
 
-(load-directory "~/.dotfiles/my-emacs/config.d")
+(load-directory "~/.dotfiles/.config/emacs/mine/config.d")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

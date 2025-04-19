@@ -19,7 +19,7 @@
 
   roles:
     #- nerd-fonts
-    #- doom-emacs
+    - doom-emacs
     #- zoxide
     #- starship
     #- next-dns
@@ -28,19 +28,19 @@
     #- color-scripts
     #- dotnet
     #- jetbrains
-    - docker
+    #- docker
   tasks:
   - name: Install pacakges with apt
     become: yes
-    ansible.builtin.apt:
+    community.general.pacman:
       name:
         - git
         - fish
         - fzf
         - ripgrep
-        - fd-find
+        #- fd-find
         - emacs
-        - emacs-common
+        #- emacs-common
         - eza
         - bat
         - btop
@@ -48,6 +48,15 @@
         - curl
         - jq
         - unzip
+        # Arch packages
+        - jetbrains-toolbox
+        - fd
+        - docker
+        - docker-compose
+        - lazydocker
+        - caddy
+        - spotify
+        - nvim
       state: present
 
   - name: Run Stow

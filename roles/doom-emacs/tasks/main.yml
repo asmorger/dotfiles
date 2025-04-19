@@ -97,3 +97,8 @@
     scope: user
     enabled: true
     state: started
+
+- name: "Clone Chemacs"
+  ansible.builtin.git:
+    repo: https://github.com/plexus/chemacs2.git
+    path: "{{ lookup('env', 'HOME') }}/.emacs.d"

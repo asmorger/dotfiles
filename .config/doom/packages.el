@@ -62,3 +62,6 @@
   (setq circadian-themes '((:sunrise . doom-gruvbox-light)
                            (:sunset  . doom-gruvbox)))
   (circadian-setup))
+
+(use-package gleam-ts-mode
+  :mode (rx ".gleam" eos))

@@ -21,9 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-
-(setq doom-font (font-spec :family "0xProto Nerd Font" :size 15))
-(setq doom-theme 'doom-miramare)
+(setq doom-font (font-spec :family "0xProto Nerd Font" :size 16))
+;; (setq doom-theme 'doom-miramare)
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -38,12 +37,13 @@
 ;;(setq doom-gruvbox-material-background  "medium"  ; or hard (defaults to soft)
 ;;     doom-gruvbox-material-palette     "material") ; or original (defaults to material)
 
-;;(setq doom-theme 'doom-laserwave)
+(setq doom-theme 'doom-laserwave)
 ;;(setq doom-theme 'doom-miramare)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 
+(setq confirm-kill-emacs 'nil)
 (setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
