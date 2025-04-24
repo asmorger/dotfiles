@@ -57,6 +57,8 @@
         - caddy
         - spotify
         - nvim
+        - syncthing
+        - keyd
       state: present
 
   - name: Run Stow
