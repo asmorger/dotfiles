@@ -1,0 +1,40 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "shift shift": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "alt-enter": "editor::ToggleCodeActions",
+      "space space": "command_palette::Toggle",
+      "space h": "zed::OpenKeymap",
+
+      "space b H": "pane::SplitLeft",
+      "space b h": "workspace::ActivatePaneLeft",
+      "space b J": "pane::SplitDown",
+      "space b j": "workspace::ActivatePaneDown",
+      "space b K": "pane::SplitUp",
+      "space b k": "workspace::ActivatePaneUp",
+      "space b L": "pane::SplitRight",
+      "space b l": "workspace::ActivatePaneRight",
+
+      "space b p": ["workspace::SendKeystrokes", "ctrl-tab enter"],
+      "space b b": ["tab_switcher::Toggle", { "select_last": true }],
+      "space b P": "pane::GoBack",
+
+      "space s d": "editor::GoToTypeDefinition",
+      "space s s": "file_finder::Toggle",
+      "space g g": "git_panel::ToggleFocus"
+    }
+  }
+]
