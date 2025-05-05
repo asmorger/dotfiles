@@ -36,5 +36,12 @@
       "space s s": "file_finder::Toggle",
       "space g g": "git_panel::ToggleFocus"
     }
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "shift-ctrl-up": "editor::AddSelectionAbove", // Insert Cursor Above
+      "shift-ctrl-down": "editor::AddSelectionBelow" // Insert Cursor Below
+    }
   }
 ]

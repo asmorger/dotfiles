@@ -7,11 +7,16 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "show_edit_predictions": false,
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
   "languages": {
     "Gleam": {
       "show_edit_predictions": false
     }
   },
+  "autosave": "on_focus_change",
   "vim_mode": true,
   "relative_line_numbers": true,
   "scrollbar": { "show": "never" },
