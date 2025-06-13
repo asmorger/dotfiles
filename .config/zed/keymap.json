@@ -18,7 +18,6 @@
       "alt-enter": "editor::ToggleCodeActions",
       "space space": "command_palette::Toggle",
       "space h": "zed::OpenKeymap",
-
       "space b H": "pane::SplitLeft",
       "space b h": "workspace::ActivatePaneLeft",
       "space b J": "pane::SplitDown",
@@ -27,14 +26,25 @@
       "space b k": "workspace::ActivatePaneUp",
       "space b L": "pane::SplitRight",
       "space b l": "workspace::ActivatePaneRight",
-
-      "space b p": ["workspace::SendKeystrokes", "ctrl-tab enter"],
-      "space b b": ["tab_switcher::Toggle", { "select_last": true }],
+      "space b p": [
+        "workspace::SendKeystrokes",
+        "ctrl-tab enter"
+      ],
+      "space b b": [
+        "tab_switcher::Toggle",
+        {
+          "select_last": true
+        }
+      ],
       "space b P": "pane::GoBack",
-
+      "space g g": [
+        "task::Spawn",
+        {
+          "lazygit": "Open lazygit"
+        }
+      ],
       "space s d": "editor::GoToTypeDefinition",
-      "space s s": "file_finder::Toggle",
-      "space g g": "git_panel::ToggleFocus"
+      "space s s": "file_finder::Toggle"
     }
   },
   {
