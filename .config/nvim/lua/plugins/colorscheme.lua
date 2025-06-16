@@ -1,12 +1,13 @@
 return {
   -- add miramare
-  { "franbach/miramare" },
+  { "f4z3r/gruvbox-material.nvim" },
 
   -- Configure LazyVim to load gruvbox
   {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "miramare",
-    },
-  },
+    'f4z3r/gruvbox-material.nvim',
+    name = 'gruvbox-material',
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  }
 }
