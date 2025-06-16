@@ -24,5 +24,6 @@ _darcs
 
 # My repo structure
 bootstrap.yml
+variables.yml
 roles
 install.sh

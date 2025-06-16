@@ -1,0 +1,57 @@
+nerd_fonts:
+  - 0xProto
+  - BitstreamVeraSansMono
+  - IBMPlexMono
+  - CascadiaCode
+  - CommitMono
+  - FiraCode
+  - Hack
+  - JetBrainsMono
+  - Monaspace
+nextdns_id: 365887
+dotnet_versions:
+  - 9.0
+  - 8.0
+
+packages:
+  global:
+    - git
+    - fish
+    - fzf
+    - ripgrep
+    - eza
+    - bat
+    - btop
+    - stow
+    - curl
+    - jq
+    - unzip
+
+    - 1password
+    - jetbrains-toolbox
+    - fd
+    - docker
+    - docker-compose
+    - lazydocker
+    - caddy
+    - spotify
+    - microsoft-edge
+    - visual-studio-code
+  ArchLinux:
+    - keyd
+  Darwin:
+    - karabiner-elements
+    - raycast
+    - koekeishiya/formulae/yabai
+    - koekeishiya/formulae/skhd
+    - FelixKratz/formulae/sketchybar
+    - keycastr
+    - shortcat
+    - zed
+    - zen
+   # - umbra
+   # - homerow
+services:
+  Darwin:
+    - brew services start sketchybar
+    - yabai --start-service
