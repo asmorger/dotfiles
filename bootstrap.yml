@@ -1,21 +1,8 @@
 - name: Bootstrap development environment
   hosts: localhost
 
-  vars:
-    nerd_fonts:
-      - 0xProto
-      - BitstreamVeraSansMono
-      - IBMPlexMono
-      - CascadiaCode
-      - CommitMono
-      - FiraCode
-      - Hack
-      - JetBrainsMono
-      - Monaspace
-    nextdns_id: 365887
-    dotnet_versions:
-      - 9.0
-      - 8.0
+  vars_files:
+    - ./variables.yml
 
   roles:
     #- nerd-fonts
@@ -30,6 +17,8 @@
     #- jetbrains
     #- docker
   tasks:
+  - name: Install OS specific tasks
+    ansible.builtin.include_tasks: "{{ os }}_tasks.yml"
   - name: Install pacakges with apt
     become: yes
     community.general.pacman:
@@ -59,6 +48,10 @@
         - nvim
         - syncthing
         - keyd
+        # Apple packages
+        - gleam
+        - elixir
+        - helix
       state: present
 
   - name: Run Stow
@@ -69,3 +62,6 @@
   - name: Make fish default shell
     shell: chsh -s /usr/bin/fish
     become: yes
+
+# OS Things to Manually Download (or convert to roles)
+# - Spaceman

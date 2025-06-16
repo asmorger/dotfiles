@@ -1,6 +1,7 @@
 ---
 
 - name: Get Warp deb package
+  when: ansible_os_family == "Arch"
   ansible.builtin.get_url:
     url: https://app.warp.dev/get_warp?package=deb
     dest: /tmp/warp_install.deb
