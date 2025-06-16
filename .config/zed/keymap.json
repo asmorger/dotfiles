@@ -26,23 +26,10 @@
       "space b k": "workspace::ActivatePaneUp",
       "space b L": "pane::SplitRight",
       "space b l": "workspace::ActivatePaneRight",
-      "space b p": [
-        "workspace::SendKeystrokes",
-        "ctrl-tab enter"
-      ],
-      "space b b": [
-        "tab_switcher::Toggle",
-        {
-          "select_last": true
-        }
-      ],
+      "space b p": ["workspace::SendKeystrokes", "ctrl-tab enter"],
+      "space b b": ["tab_switcher::Toggle", { "select_last": true }],
       "space b P": "pane::GoBack",
-      "space g g": [
-        "task::Spawn",
-        {
-          "lazygit": "Open lazygit"
-        }
-      ],
+      "space g g": ["task::Spawn", { "lazygit": "Open lazygit" }],
       "space s d": "editor::GoToTypeDefinition",
       "space s s": "file_finder::Toggle"
     }
