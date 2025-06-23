@@ -7,10 +7,10 @@
   roles:
     #- nerd-fonts
     #- doom-emacs
-    #- zoxide
+    - zoxide
     #- starship
     #- next-dns
-    #- tailscale
+    - tailscale
     #- vscode
     #- color-scripts
     - dotnet
