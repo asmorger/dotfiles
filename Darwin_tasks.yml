@@ -112,7 +112,7 @@
         - visual-studio-code
         - spotify
         - microsoft-edge
-        - warp
+        - ghostty
 
     - name: Ensures packages are present via homebrew
       community.general.homebrew:
