@@ -90,3 +90,75 @@
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
+
+
+- name: Macbook Software
+  gather_facts: False
+  tasks:
+    - name: Ensures taps are present via homebrew
+      community.general.homebrew_tap:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - hashicorp/tap
+
+    - name: Ensures packages are present via homebrew cask
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+        state: present
+        # install_options: 'appdir=/Applications'
+        loop: 
+      with_items:
+        - visual-studio-code
+        - spotify
+        - microsoft-edge
+        - warp
+
+    - name: Ensures packages are present via homebrew
+      community.general.homebrew:
+        name: "{{ item }}"
+        path: "/Applications"
+        state: present
+      with_items:
+        # global dependencies
+        - git
+        - fish
+        - fzf
+        - ripgrep
+        - eza
+        - bat
+        - btop
+        - starship
+        - stow
+        - curl
+        - jq
+        - unzip
+        - 1password
+        - jetbrains-toolbox
+        - fd
+        - docker
+        - docker-compose
+        - lazydocker
+        - lazygit
+        - caddy
+
+        # OS tools
+        - karabiner-elements
+        - raycast
+        - koekeishiya/formulae/yabai
+        - koekeishiya/formulae/skhd
+        - keycastr
+        - shortcat
+        - zed
+
+        # Dev Tools
+        - gleam
+        - elixir
+
+      ignore_errors: yes
+      tags:
+        - packages
+
+# Things to manually install:
+# - Hand mirror
+# - Spaceman

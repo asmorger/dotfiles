@@ -8,6 +8,7 @@ nerd_fonts:
   - Hack
   - JetBrainsMono
   - Monaspace
+
 nextdns_id: 365887
 dotnet_versions:
   - 9.0
@@ -26,7 +27,6 @@ packages:
     - curl
     - jq
     - unzip
-
     - 1password
     - jetbrains-toolbox
     - fd
@@ -34,23 +34,11 @@ packages:
     - docker-compose
     - lazydocker
     - caddy
-    - spotify
-    - microsoft-edge
-    - visual-studio-code
+    # - spotify
+    # - microsoft-edge
+    # - visual-studio-code
   ArchLinux:
     - keyd
-  Darwin:
-    - karabiner-elements
-    - raycast
-    - koekeishiya/formulae/yabai
-    - koekeishiya/formulae/skhd
-    - FelixKratz/formulae/sketchybar
-    - keycastr
-    - shortcat
-    - zed
-    - zen
-   # - umbra
-   # - homerow
 services:
   Darwin:
     - brew services start sketchybar

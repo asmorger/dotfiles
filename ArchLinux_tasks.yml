@@ -1,0 +1,37 @@
+- name: Install pacakges with pacman 
+  become: yes
+  block:
+    community.general.pacman:
+      name:
+        - git
+        - fish
+        - fzf
+        - ripgrep
+        #- fd-find
+        - emacs
+        #- emacs-common
+        - eza
+        - bat
+        - btop
+        - stow
+        - curl
+        - jq
+        - unzip
+        # Arch packages
+        - jetbrains-toolbox
+        - fd
+        - docker
+        - docker-compose
+        - lazydocker
+        - caddy
+        - spotify
+        - nvim
+        - syncthing
+        - keyd
+        # Apple packages
+        - gleam
+        - elixir
+        - helix
+      state: present
+
+x
