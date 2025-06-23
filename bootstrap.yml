@@ -6,14 +6,14 @@
 
   roles:
     #- nerd-fonts
-    - doom-emacs
+    #- doom-emacs
     #- zoxide
     #- starship
     #- next-dns
     #- tailscale
     #- vscode
     #- color-scripts
-    #- dotnet
+    - dotnet
     #- jetbrains
     #- docker
   tasks:
